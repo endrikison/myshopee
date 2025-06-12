@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Links Shopee Afiliados</title>
+    <style>
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            --primary: 221.2 83.2% 53.3%;
+            --primary-foreground: 210 40% 98%;
+            --secondary: 210 40% 96%;
+            --secondary-foreground: 222.2 84% 4.9%;
+            --muted: 210 40% 96%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            --accent: 210 40% 96%;
+            --accent-foreground: 222.2 84% 4.9%;
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 221.2 83.2% 53.3%;
+            --radius: 0.5rem;
+        }
+
+        .dark {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            --card: 222.2 84% 4.9%;
+            --card-foreground: 210 40% 98%;
+            --popover: 222.2 84% 4.9%;
+            --popover-foreground: 210 40% 98%;
+            --primary: 217.2 91.2% 59.8%;
+            --primary-foreground: 222.2 84% 4.9%;
+            --secondary: 217.2 32.6% 17.5%;
+            --secondary-foreground: 210 40% 98%;
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 224.3 76.3% 94.1%;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .card {
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: calc(var(--radius) + 2px);
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .card-description {
+            color: hsl(var(--muted-foreground));
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.5rem;
+        }
+
+        .input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-size: 0.875rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+        }
+
+        .select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+
+        .select:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            padding: 0.5rem 1rem;
+            min-height: 2.5rem;
+        }
+
+        .button-primary {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+
+        .button-primary:hover {
+            background-color: hsl(var(--primary) / 0.9);
+        }
+
+        .button-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+            border: 1px solid hsl(var(--border));
+        }
+
+        .button-secondary:hover {
+            background-color: hsl(var(--secondary) / 0.8);
+        }
+
+        .button-destructive {
+            background-color: hsl(var(--destructive));
+            color: hsl(var(--destructive-foreground));
+        }
+
+        .button-destructive:hover {
+            background-color: hsl(var(--destructive) / 0.9);
+        }
+
+        .button-success {
+            background-color: hsl(142.1 76.2% 36.3%);
+            color: hsl(var(--primary-foreground));
+        }
+
+        .button-success:hover {
+            background-color: hsl(142.1 76.2% 36.3% / 0.9);
+        }
+
+        .button-warning {
+            background-color: hsl(32.1 94.6% 43.7%);
+            color: hsl(var(--primary-foreground));
+        }
+
+        .button-warning:hover {
+            background-color: hsl(32.1 94.6% 43.7% / 0.9);
+        }
+
+        .button-full {
+            width: 100%;
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-info {
+            background-color: hsl(214.3 31.8% 91.4% / 0.3);
+            border-color: hsl(var(--primary) / 0.3);
+            color: hsl(var(--primary));
+        }
+
+        .alert-success {
+            background-color: hsl(142.1 76.2% 36.3% / 0.1);
+            border-color: hsl(142.1 76.2% 36.3% / 0.3);
+            color: hsl(142.1 76.2% 36.3%);
+        }
+
+        .text-sm {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            margin-top: 0.25rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .grid-cols-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: hsl(var(--muted) / 0.3);
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--border));
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: hsl(var(--primary));
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .code-block {
+            background-color: hsl(var(--muted));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 0.75rem;
+            font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            margin: 0.5rem 0;
+        }
+
+        .history-item {
+            background-color: hsl(var(--card));
+            border: 1px solid hsl(var(--border));
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid hsl(var(--border));
+        }
+
+        .history-timestamp {
+            font-weight: 500;
+            color: hsl(var(--primary));
+        }
+
+        .history-delay {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            background-color: hsl(var(--muted));
+            padding: 0.125rem 0.375rem;
+            border-radius: calc(var(--radius) / 2);
+        }
+
+        .history-field {
+            margin-bottom: 0.5rem;
+        }
+
+        .history-label {
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: hsl(var(--foreground));
+            margin-bottom: 0.25rem;
+        }
+
+        .history-value {
+            font-size: 0.75rem;
+            color: hsl(var(--muted-foreground));
+            word-break: break-all;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.75rem;
+        }
+
+        .button-sm {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            min-height: 2rem;
+        }
+
+        .no-history {
+            text-align: center;
+            padding: 2rem;
+            color: hsl(var(--muted-foreground));
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: hsl(var(--foreground));
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem 0;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.5rem;
+            }
+
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .history-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">🔗 Gerador de Links Shopee</h1>
+                <p class="card-description">Transforme seus links de afiliado em redirecionadores automáticos</p>
+            </div>
+
+            <div class="alert alert-info">
+                <h4 style="margin-bottom: 0.5rem; font-weight: 500;">📋 Como usar:</h4>
+                <p style="margin: 0;">1. Cole seu link de afiliado da Shopee<br>
+                2. Cole o link de destino (sua notícia/conteúdo)<br>
+                3. Clique em "Gerar Link" e pronto!</p>
+            </div>
+
+            <div class="form-group">
+                <label class="label" for="shopee-link">🛒 Link de Afiliado da Shopee</label>
+                <input type="url" id="shopee-link" class="input" placeholder="https://shopee.com.br/universal-link/..." required>
+                <div class="text-sm">Exemplo: https://shopee.com.br/universal-link/now-i/123456?deep_and_deferred=1&pid=seu_id</div>
+            </div>
+
+            <div class="form-group">
+                <label class="label" for="destination-link">🎯 Link de Destino (sua notícia/conteúdo)</label>
+                <input type="url" id="destination-link" class="input" placeholder="https://seublog.com/sua-noticia" required>
+                <div class="text-sm">Exemplo: https://seublog.com/noticia-incrivel-tecnologia</div>
+            </div>
+
+            <div class="form-group">
+                <label class="label" for="delay-time">⏱️ Tempo de Redirecionamento</label>
+                <select id="delay-time" class="select">
+                    <option value="0">Instantâneo (0 segundos)</option>
+                    <option value="1" selected>Rápido (1 segundo) - Recomendado</option>
+                    <option value="2">Moderado (2 segundos)</option>
+                    <option value="3">Lento (3 segundos)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="label" for="base-url">🌐 URL Base do seu Redirecionador</label>
+                <input type="url" id="base-url" class="input" placeholder="https://seusite.com/redirector-shopee-afiliados.html" value="https://seusite.com/redirector-shopee-afiliados.html">
+                <div class="text-sm">Onde você hospedou o arquivo redirector-shopee-afiliados.html</div>
+            </div>
+
+            <button class="button button-primary button-full" onclick="generateLink()">🚀 Gerar Link de Redirecionamento</button>
+        </div>
+
+        <div id="result-section" class="card" style="display: none;">
+            <h3 class="section-title">✅ Link Gerado com Sucesso!</h3>
+            <p style="margin-bottom: 1rem; color: hsl(var(--muted-foreground));">Use este link para divulgação:</p>
+            <div id="generated-link" class="code-block"></div>
+            <div class="button-group">
+                <button class="button button-secondary" onclick="copyToClipboard()">📋 Copiar Link</button>
+                <button class="button button-warning" onclick="testLink()">🧪 Testar Link</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="grid grid-cols-3">
+                <div class="stat-card">
+                    <div class="stat-number" id="links-generated">0</div>
+                    <div class="stat-label">Links Gerados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="links-copied">0</div>
+                    <div class="stat-label">Links Copiados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="links-tested">0</div>
+                    <div class="stat-label">Links Testados</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="section-title">📋 Histórico de Links Criados</h3>
+            <div id="history-container">
+                <div id="no-history" class="no-history">
+                    <p>Nenhum link foi criado ainda. Gere seu primeiro link acima!</p>
+                </div>
+                <div id="history-list" style="display: none;"></div>
+            </div>
+            <div class="button-group" style="margin-top: 1rem; justify-content: center;">
+                <button class="button button-destructive button-sm" onclick="clearHistory()">🗑️ Limpar Histórico</button>
+                <button class="button button-success button-sm" onclick="exportHistory()">📥 Exportar Histórico</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Histórico de links
+        let linkHistory = JSON.parse(localStorage.getItem('link-history') || '[]');
+        
+        // Salvar histórico
+        function saveHistory() {
+            localStorage.setItem('link-history', JSON.stringify(linkHistory));
+        }
+        
+        // Adicionar link ao histórico
+        function addToHistory(shopeeLink, destinationLink, finalLink, delayTime) {
+            const historyItem = {
+                id: Date.now(),
+                timestamp: new Date().toLocaleString('pt-BR'),
+                shopeeLink: shopeeLink,
+                destinationLink: destinationLink,
+                finalLink: finalLink,
+                delayTime: delayTime,
+                clicks: 0
+            };
+            
+            linkHistory.unshift(historyItem); // Adiciona no início
+            
+            // Manter apenas os últimos 50 links
+            if (linkHistory.length > 50) {
+                linkHistory = linkHistory.slice(0, 50);
+            }
+            
+            saveHistory();
+            updateHistoryDisplay();
+        }
+        
+        // Atualizar exibição do histórico
+        function updateHistoryDisplay() {
+            const historyList = document.getElementById('history-list');
+            const noHistory = document.getElementById('no-history');
+            
+            if (linkHistory.length === 0) {
+                noHistory.style.display = 'block';
+                historyList.style.display = 'none';
+                return;
+            }
+            
+            noHistory.style.display = 'none';
+            historyList.style.display = 'block';
+            
+            historyList.innerHTML = linkHistory.map(item => `
+                <div class="history-item">
+                    <div class="history-header">
+                        <span class="history-timestamp">📅 ${item.timestamp}</span>
+                        <span class="history-delay">⏱️ ${item.delayTime}s</span>
+                    </div>
+                    
+                    <div class="history-field">
+                        <div class="history-label">🛒 Shopee:</div>
+                        <div class="history-value">${item.shopeeLink}</div>
+                    </div>
+                    
+                    <div class="history-field">
+                        <div class="history-label">🎯 Destino:</div>
+                        <div class="history-value">${item.destinationLink}</div>
+                    </div>
+                    
+                    <div class="history-field">
+                        <div class="history-label">🔗 Link Final:</div>
+                        <div class="code-block">${item.finalLink}</div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="button button-secondary button-sm" onclick="copyHistoryLink('${item.id}')">📋 Copiar</button>
+                        <button class="button button-warning button-sm" onclick="testHistoryLink('${item.id}')">🧪 Testar</button>
+                        <button class="button button-primary button-sm" onclick="reuseHistoryLink('${item.id}')">🔄 Reutilizar</button>
+                        <button class="button button-destructive button-sm" onclick="deleteHistoryItem('${item.id}')">🗑️ Excluir</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Copiar link do histórico
+        function copyHistoryLink(id) {
+            const item = linkHistory.find(h => h.id == id);
+            if (!item) return;
+            
+            navigator.clipboard.writeText(item.finalLink).then(() => {
+                alert('Link copiado do histórico!');
+                stats.copied++;
+                updateStats();
+                saveStats();
+            }).catch(() => {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = item.finalLink;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Link copiado do histórico!');
+                stats.copied++;
+                updateStats();
+                saveStats();
+            });
+        }
+        
+        // Testar link do histórico
+        function testHistoryLink(id) {
+            const item = linkHistory.find(h => h.id == id);
+            if (!item) return;
+            
+            window.open(item.finalLink, '_blank');
+            stats.tested++;
+            updateStats();
+            saveStats();
+        }
+        
+        // Reutilizar link do histórico
+        function reuseHistoryLink(id) {
+            const item = linkHistory.find(h => h.id == id);
+            if (!item) return;
+            
+            document.getElementById('shopee-link').value = item.shopeeLink;
+            document.getElementById('destination-link').value = item.destinationLink;
+            document.getElementById('delay-time').value = item.delayTime;
+            
+            // Scroll para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            alert('Dados preenchidos! Você pode modificar e gerar um novo link.');
+        }
+        
+        // Excluir item do histórico
+        function deleteHistoryItem(id) {
+            if (confirm('Tem certeza que deseja excluir este item do histórico?')) {
+                linkHistory = linkHistory.filter(h => h.id != id);
+                saveHistory();
+                updateHistoryDisplay();
+            }
+        }
+        
+        // Limpar todo o histórico
+        function clearHistory() {
+            if (confirm('Tem certeza que deseja limpar todo o histórico? Esta ação não pode ser desfeita.')) {
+                linkHistory = [];
+                saveHistory();
+                updateHistoryDisplay();
+            }
+        }
+        
+        // Exportar histórico
+        function exportHistory() {
+            if (linkHistory.length === 0) {
+                alert('Não há histórico para exportar.');
+                return;
+            }
+            
+            const csvContent = [
+                'Data,Link Shopee,Link Destino,Link Final,Delay',
+                ...linkHistory.map(item => 
+                    `"${item.timestamp}","${item.shopeeLink}","${item.destinationLink}","${item.finalLink}","${item.delayTime}s"`
+                )
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `historico-links-shopee-${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Estatísticas locais
+        let stats = {
+            generated: parseInt(localStorage.getItem('links-generated') || '0'),
+            copied: parseInt(localStorage.getItem('links-copied') || '0'),
+            tested: parseInt(localStorage.getItem('links-tested') || '0')
+        };
+        
+        // Atualizar estatísticas na tela
+        function updateStats() {
+            document.getElementById('links-generated').textContent = stats.generated;
+            document.getElementById('links-copied').textContent = stats.copied;
+            document.getElementById('links-tested').textContent = stats.tested;
+        }
+        
+        // Salvar estatísticas
+        function saveStats() {
+            localStorage.setItem('links-generated', stats.generated);
+            localStorage.setItem('links-copied', stats.copied);
+            localStorage.setItem('links-tested', stats.tested);
+        }
+        
+        // Variável global para armazenar o link gerado
+        let currentGeneratedLink = '';
+        
+        function generateLink() {
+            const shopeeLink = document.getElementById('shopee-link').value.trim();
+            const destinationLink = document.getElementById('destination-link').value.trim();
+            const delayTime = document.getElementById('delay-time').value;
+            const baseUrl = document.getElementById('base-url').value.trim();
+            
+            // Validação
+            if (!shopeeLink || !destinationLink || !baseUrl) {
+                alert('Por favor, preencha todos os campos obrigatórios.');
+                return;
+            }
+            
+            // Validar se são URLs válidas
+            try {
+                new URL(shopeeLink);
+                new URL(destinationLink);
+                new URL(baseUrl);
+            } catch (e) {
+                alert('Por favor, insira URLs válidas (incluindo http:// ou https://).');
+                return;
+            }
+            
+            // Codificar os parâmetros
+            const encodedShopeeLink = encodeURIComponent(shopeeLink);
+            const encodedDestinationLink = encodeURIComponent(destinationLink);
+            
+            // Gerar o link final
+            const finalLink = `${baseUrl}?affiliate=${encodedShopeeLink}&destination=${encodedDestinationLink}&delay=${delayTime}`;
+            
+            // Exibir o resultado
+            currentGeneratedLink = finalLink;
+            document.getElementById('generated-link').textContent = finalLink;
+            document.getElementById('result-section').style.display = 'block';
+            
+            // Scroll para o resultado
+            document.getElementById('result-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+            
+            // Adicionar ao histórico
+            addToHistory(shopeeLink, destinationLink, finalLink, delayTime);
+            
+            // Atualizar estatísticas
+            stats.generated++;
+            updateStats();
+            saveStats();
+            
+            // Feedback visual
+            const btn = document.querySelector('.button-primary');
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Link Gerado!';
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        }
+        
+        function copyToClipboard() {
+            if (!currentGeneratedLink) {
+                alert('Nenhum link foi gerado ainda.');
+                return;
+            }
+            
+            // Copiar para a área de transferência
+            navigator.clipboard.writeText(currentGeneratedLink).then(() => {
+                alert('Link copiado para a área de transferência!');
+                
+                // Atualizar estatísticas
+                stats.copied++;
+                updateStats();
+                saveStats();
+                
+            }).catch(err => {
+                // Fallback para navegadores mais antigos
+                const textArea = document.createElement('textarea');
+                textArea.value = currentGeneratedLink;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                alert('Link copiado para a área de transferência!');
+                
+                stats.copied++;
+                updateStats();
+                saveStats();
+            });
+        }
+        
+        function testLink() {
+            if (!currentGeneratedLink) {
+                alert('Nenhum link foi gerado ainda.');
+                return;
+            }
+            
+            // Abrir o link em uma nova aba
+            window.open(currentGeneratedLink, '_blank');
+            
+            // Atualizar estatísticas
+            stats.tested++;
+            updateStats();
+            saveStats();
+        }
+        
+        // Permitir Enter para gerar link
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generateLink();
+            }
+        });
+        
+        // Auto-completar URL base baseado no domínio atual
+        window.onload = function() {
+            updateStats();
+            updateHistoryDisplay();
+            
+            // Se estiver rodando localmente, sugerir uma URL base
+            if (window.location.protocol === 'file:') {
+                document.getElementById('base-url').placeholder = 'https://seusite.com/redirector/';
+            } else {
+                // Se estiver em um servidor, usar o domínio atual
+                const currentDomain = window.location.origin;
+                document.getElementById("base-url").value = currentDomain + "/redirector-shopee-afiliados.html";
+            }
+        };
+    </script>
+</body>
+</html>
+
