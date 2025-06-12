@@ -297,13 +297,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="label" for="final-destination">🎯 Destino Final (notícia/conteúdo):</label>
+                    <label class="label" for="final-destination">🎯 Destino Final (notícia/conteúdo ):</label>
                     <input type="url" id="final-destination" class="input" placeholder="https://seublog.com/noticia-interessante" value="">
                     <div class="text-sm">Link da notícia ou conteúdo que o usuário realmente quer ver</div>
                 </div>
 
                 <div class="form-group">
-                    <label class="label" for="delay-seconds">⏱️ Tempo de Espera (segundos):</label>
+                    <label class="label" for="delay-seconds">⏱️ Tempo de Espera (segundos ):</label>
                     <input type="number" id="delay-seconds" class="input" min="0" max="10" value="1">
                     <div class="text-sm">Recomendado: 1 segundo para transparência máxima</div>
                 </div>
@@ -346,12 +346,12 @@
 
     <script>
         // Função para extrair parâmetros da URL
-        function getURLParameters() {
+        function getURLParameters( ) {
             const urlParams = new URLSearchParams(window.location.search);
             return {
-                affiliate: urlParams.get('affiliate'),
-                destination: urlParams.get('destination'),
-                delay: urlParams.get('delay')
+                affiliate: urlParams.get("affiliate"),
+                destination: urlParams.get("destination"),
+                delay: urlParams.get("delay")
             };
         }
 
@@ -375,94 +375,70 @@
                 const delaySeconds = params.delay ? parseInt(params.delay) : 1;
                 
                 // OCULTAR completamente a tela de configuração
-                document.getElementById('config-screen').style.display = 'none';
+                document.getElementById("config-screen").style.display = "none";
                 
                 // Mostrar apenas a tela de redirecionamento
-                document.getElementById('redirect-screen').style.display = 'flex';
-                document.getElementById('destination-info').textContent = `Redirecionando para: ${new URL(destinationLink).hostname}`;
+                document.getElementById("redirect-screen").style.display = "flex";
+                document.getElementById("destination-info").textContent = `Redirecionando para: ${new URL(destinationLink).hostname}`;
                 
                 // Iniciar redirecionamento automaticamente
                 startRedirectWithParams(affiliateLink, destinationLink, delaySeconds);
             } else {
                 // Modo normal - mostrar configuração
-                document.getElementById('auto-mode').style.display = 'none';
+                document.getElementById("auto-mode").style.display = "none";
             }
         };
 
         function startRedirect() {
             // Pega os valores dos campos
-            const intermediateLink = document.getElementById('intermediate-link').value;
-            const finalDestination = document.getElementById('final-destination').value;
-            const delaySeconds = parseInt(document.getElementById('delay-seconds').value) || 1;
+            const intermediateLink = document.getElementById("intermediate-link").value;
+            const finalDestination = document.getElementById("final-destination").value;
+            const delaySeconds = parseInt(document.getElementById("delay-seconds").value) || 1;
 
             if (!intermediateLink || !finalDestination) {
-                alert('Por favor, preencha todos os campos.');
+                alert("Por favor, preencha todos os campos.");
                 return;
             }
 
             // Ocultar tela de configuração e mostrar tela de redirecionamento
-            document.getElementById('config-screen').style.display = 'none';
-            document.getElementById('redirect-screen').style.display = 'flex';
-            document.getElementById('destination-info').textContent = `Redirecionando para: ${new URL(finalDestination).hostname}`;
+            document.getElementById("config-screen").style.display = "none";
+            document.getElementById("redirect-screen").style.display = "flex";
+            document.getElementById("destination-info").textContent = `Redirecionando para: ${new URL(finalDestination).hostname}`;
 
             // Iniciar o processo de redirecionamento
             startRedirectWithParams(intermediateLink, finalDestination, delaySeconds);
         }
 
         function startRedirectWithParams(intermediateLink, finalDestination, delaySeconds) {
-            console.log('Iniciando redirecionamento...');
-            console.log('Link intermediário:', intermediateLink);
-            console.log('Destino final:', finalDestination);
-            console.log('Delay:', delaySeconds);
+            console.log("Iniciando redirecionamento...");
+            console.log("Link intermediário:", intermediateLink);
+            console.log("Destino final:", finalDestination);
+            console.log("Delay:", delaySeconds);
 
-            // Fazer requisição para o link intermediário (Shopee) em segundo plano
-            // Isso salvará o cookie de afiliado
-            fetch(intermediateLink, { 
-                mode: 'no-cors',
-                method: 'GET'
-            }).catch(error => {
-                console.log('Requisição para link intermediário (esperado):', error);
-            });
+            // ABRE O LINK DA SHOPEE EM UMA NOVA ABA/JANELA
+            window.open(intermediateLink, "_blank");
 
-            // Também tentar com uma imagem invisível como fallback
-            const img = new Image();
-            img.src = intermediateLink;
+            let countdownValue = delaySeconds;
+            const countdownElement = document.getElementById("countdown");
+            const progressFillElement = document.getElementById("progress-fill");
 
-            // Também tentar abrir em iframe oculto
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = intermediateLink;
-            document.body.appendChild(iframe);
+            countdownElement.textContent = countdownValue;
+            progressFillElement.style.width = "0%";
 
-            // Remover iframe após um tempo
-            setTimeout(() => {
-                if (iframe.parentNode) {
-                    iframe.parentNode.removeChild(iframe);
+            const interval = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                progressFillElement.style.width = `${((delaySeconds - countdownValue) / delaySeconds) * 100}%`;
+
+                if (countdownValue <= 0) {
+                    clearInterval(interval);
+                    // REDIRECIONA A ABA ATUAL PARA O DESTINO FINAL
+                    window.location.href = finalDestination;
                 }
             }, 1000);
-
-            // Iniciar contagem regressiva
-            let timeLeft = delaySeconds;
-            const countdownElement = document.getElementById('countdown');
-            const progressElement = document.getElementById('progress-fill');
-            
-            const updateCountdown = () => {
-                countdownElement.textContent = timeLeft;
-                const progressPercent = ((delaySeconds - timeLeft) / delaySeconds) * 100;
-                progressElement.style.width = progressPercent + '%';
-                
-                if (timeLeft <= 0) {
-                    // Redirecionar para o destino final
-                    window.location.href = finalDestination;
-                } else {
-                    timeLeft--;
-                    setTimeout(updateCountdown, 1000);
-                }
-            };
-
-            updateCountdown();
         }
     </script>
 </body>
 </html>
+
 
